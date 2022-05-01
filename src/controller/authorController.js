@@ -13,8 +13,10 @@ let Author = async function (req, res) {
         if (!fname) return res.status(400).send("Please Enter your First Name");
         if (!lname) return res.status(400).send("Please Enter your Last Name");
         if (!title) return res.status(400).send("Please Enter your title");
-        if (!mail) return res.status(400).send("Please Enter your Email");
+        if (!mail) return res.status(400).send({status:false,msg:"Please Enter your Email"});
         if (!regx.test(mail)) return res.status(400).send("Please Enter a valid EmailId");
+        let uniqueEmail= await authorModel.findOne({email:mail})
+        if(!uniqueEmail) return res.status(400).send({status:false, msg:"emailid already exist"})
         if (!pass) return res.status(400).send("Please Enter your Password");
         // let passcheck = pass.length;
         // if (!(passcheck >= 8 && passcheck <= 20)) return res.status(400).send("Please Enter a valid Password");

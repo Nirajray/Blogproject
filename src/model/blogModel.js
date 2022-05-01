@@ -12,7 +12,7 @@ const blogSchema = new mongoose.Schema({
         required: true,
         trim:true
     },
-    authorId: {
+    author_id: {
         type: ObjectId,
         required: true,
         ref: 'Authorpro'
