@@ -1,9 +1,6 @@
 const authorModel = require("../model/authorModel")
 const blogModel = require("../model/blogModel")
-// const jwt = require("jsonwebtoken")
-// const moment = require("moment")
 const mongoose = require("mongoose")
-//const ObjectId = mongoose.Schema.Types.ObjectId
 const isValidObjectId = (ObjectId) => {
   return mongoose.Schema.Types.ObjectId
 }
@@ -18,7 +15,6 @@ let blog = async function (req, res) {
       let tags = req.body.tags;
       let category = req.body.category;
       let subcategory = req.body.subcategory;
-      // if (data.length != 0) return res.status(400).send("Please Enter Data");
       if (!title) return res.status(400).send({status:false,msg:"Please Enter title"});
       if (!body) return res.status(400).send({status:false,msg:"Please Details about your Blog"});
       if (!tags) return res.status(400).send({status:false, msg:"Please Enter Your Tags"});
@@ -28,24 +24,14 @@ let blog = async function (req, res) {
       if (!isValidObjectId(authorid)) return res.status(400).send({status:false, msg:"Please Enter valid Author id"})
       let author = await authorModel.findOne({ _id: authorid });
       if (!author) return res.status(400).send({status:false,msg:"author is not present"})
-      // let token = jwt.sign(
-      //   {
-      //     authorId: author._id.toString(), 
-      //     batch: "radium",
-      //     organisation: "Functionup",
-      //   },
-      //   "functionup-thorium"
-      // );
       if (getData.isPublished == true) {
         getData.publishedAt = Date.now()
         let saved = await blogModel.create(getData);
-        // res.setHeader("x-api-key", token);
         return res.status(201).send({ data: saved });
 
       }
       else {
         let saved = await blogModel.create(getData);
-        //res.setHeader("x-api-key", token);
         return res.status(201).send({ data: saved });
       }
     }
@@ -66,11 +52,6 @@ let getblog = async function (req, res) {
     if (!value) return res.status(400).send({status:false, msg:"Please Enter data"})
     let filter = await blogModel.find({ $and: [value, { isDeleted: false, isPublished: true }] })
     if (filter.length == 0) return res.status(404).send({status:false, msg:"Record Not found" })
-    // let token = req.headers["x-api-key"]
-    // let decodedToken = jwt.verify(token, "functionup-thorium");
-    // if (!decodedToken)
-    // return res.status(401).send({ status: false, msg: "token is invalid" });
-
     res.status(200).send({ status: true, data: filter })
   }
   catch (err) {
