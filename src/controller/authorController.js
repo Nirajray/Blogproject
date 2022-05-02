@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 let Author = async function (req, res) {
     try {
         let data = req.body
-        if (data.length != 0) return res.status(400).send({status:false, msg:"Please Enter Data"})
+        if (Object.keys(getData).length != 0) return res.status(400).send({status:false, msg:"Please Enter Data"})
         let fname = req.body.fname;
         let lname = req.body.lname;
         let title = req.body.title;
