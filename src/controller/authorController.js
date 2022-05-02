@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken")
 let Author = async function (req, res) {
     try {
         let data = req.body
-        
         let fname = req.body.fname;
         let lname = req.body.lname;
         let title = req.body.title;

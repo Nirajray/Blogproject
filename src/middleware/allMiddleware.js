@@ -1,4 +1,8 @@
 const blogModel = require("../model/blogModel");
+const mongoose = require("mongoose")
+const isValidObjectId = (ObjectId) => {
+    return mongoose.Schema.Types.ObjectId
+  }
 const jwt = require("jsonwebtoken")
 
 const authentication = function (req, res, next) {
