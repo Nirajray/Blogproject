@@ -47,7 +47,7 @@ let token = jwt.sign(
   );
  console.log(token)
 res.setHeader("x-api-key",token);
-res.status(200).send({status:true, msg: "login succesfully"});
+res.status(200).send({status:true, msg: "login succesfully", data:token});
 }
 
 module.exports.Author = Author
