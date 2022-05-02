@@ -21,7 +21,7 @@ const authentication = function (req, res, next) {
 
 }
 
-const autherization = async function (req, res, next) {
+const authorisation = async function (req, res, next) {
     try {
         let token = req.headers["x-api-key"]
         let decodedToken = jwt.verify(token, "functionup-thorium");
@@ -35,16 +35,19 @@ const autherization = async function (req, res, next) {
             // let authorToBeModified = author_id
             let authorLoggedIn = decodedToken.authorId
             if (authorId != authorLoggedIn) return res.status(403).send({ status: false, msg: 'author logged is not allowed to modify the requested users data' })
-        }
+        } 
         else {
             let value = req.query
-            let update = await blogModel.find({value, isDeleted:false});
+            let b={isDeleted:false}
+           // console.log(value)
+            let update = await blogModel.find(value,b);
+            //console.log(update)
             if (update.length == 0) {
                 return res.status(404).send({ status: false, msg: "blog not found" });
             } 
-            for (let i = 0; i < update.length; i++) {
+            for (let i = 0; i < update.length; i++){
                 if (update[i].author_id != decodedToken.authorId) {
-                    return res.status(403).send({ status: false, msg: 'author logged is not allowed to modify the requested users data' })
+                    return res.status(403).send({ status: false, msg: 'author logged is not allowed to modify the requested authors data' })
 
                 }
             }
@@ -62,4 +65,4 @@ const autherization = async function (req, res, next) {
 
 
 module.exports.authentication = authentication
-module.exports.autherization = autherization
+module.exports.authorisation= authorisation
