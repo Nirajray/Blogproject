@@ -27,12 +27,12 @@ let blog = async function (req, res) {
       if (getData.isPublished == true) {
         getData.publishedAt = Date.now()
         let saved = await blogModel.create(getData);
-        return res.status(201).send({ data: saved });
+        return res.status(201).send({ status:true, data: saved });
 
       }
       else {
         let saved = await blogModel.create(getData);
-        return res.status(201).send({ data: saved });
+        return res.status(201).send({status:true, data: saved });
       }
     }
 
@@ -101,7 +101,7 @@ let deleted = async function (req, res) {
   if (len == 0) return res.status(404).send({status:false, msg:"Not found"})
   if (del == true) return res.status(400).send({status:false, msg:"Blog is already deleted"})
   let modified = await blogModel.findByIdAndUpdate({ _id: blogid }, { isDeleted: true, deletedAt: Date.now() }, { new: true })
-  res.status(200).send({ data: modified })
+  res.status(200).send({ status:true, data: modified })
 }
 
 //5=============================================================================
