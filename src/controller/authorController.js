@@ -16,7 +16,7 @@ let Author = async function (req, res) {
         if (!mail) return res.status(400).send({status:false,msg:"Please Enter your Email"});
         if (!regx.test(mail)) return res.status(400).send({status:false,msg:"Please Enter a valid EmailId"});
         let uniqueEmail= await authorModel.findOne({email:mail})
-        if(!uniqueEmail) return res.status(400).send({status:false, msg:"emailid already exist"})
+        if(uniqueEmail) return res.status(400).send({status:false, msg:"emailid already exist"})
         if (!pass) return res.status(400).send({status:false, msg:"Please Enter your Password"});
         let saved = await authorModel.create(data);
         res.status(201).send({status:true, data: saved })
