@@ -146,9 +146,11 @@ const deletequery = async function (req, res) {
     if ("isPublished" in requestQuery) {
       filterQuery["isPublished"] = isPublished
     }
-    let blog = await blogModel.find( filterQuery ) 
+    let blog = await blogModel.findOne( filterQuery ) 
     if (!blog) return res.status(404).send({status:false,msg:"blog Not found"})
+    console.log(blog)
     let updated = await blogModel.updateMany(filterQuery,d, {new: true })
+    console.log(updated)
     if (!updated) return res.status(404).send({ status: false, msg: "Not found and data is allready deleted" })
     return res.status(200).send({ status: true, data: updated })
 
