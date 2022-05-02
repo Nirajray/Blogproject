@@ -25,6 +25,7 @@ let blog = async function (req, res) {
       if (!category) return res.status(400).send({status:false, msg:"Please Enter Your Blog category"});
       if (!subcategory) return res.status(400).send({status:false,msg:"Please Enter Your Blog's subcategory"});
       if (!authorid) return res.status(400).send({status:false, msg:"Please Enter Author id"});
+      if (!isValidObjectId(authorid)) return res.status(400).send({status:false, msg:"Please Enter valid Author id"})
       let author = await authorModel.findOne({ _id: authorid });
       if (!author) return res.status(400).send({status:false,msg:"author is not present"})
       // let token = jwt.sign(
@@ -80,9 +81,8 @@ let getblog = async function (req, res) {
 let updateblog = async function (req, res) {
   try {
     let blogid = req.params.blogId;
-   if (!blogid) return res.status(400).send({status:false, msg:"Please enter your id"});
-    if (!isValidObjectId(blogid))
-      return res.status(400).send({ status: false, msg: "please provide a valid object id" })
+   if (!blogid) return res.status(400).send({status:false, msg:"Please enter your blogid"});
+    if (!isValidObjectId(blogid)) return res.status(400).send({ status: false, msg: "please provide a valid object id of blog" })
       let blog = await blogModel.findOne({ _id: blogid, isDeleted: false });
       if (!blog) return res.status(404).send({status:false,msg:"No Such blog exist"});
   let a=req.body.title
@@ -112,6 +112,7 @@ res.status(200).send({status:true, data:update})
 let deleted = async function (req, res) {
   let blogid = req.params.blogId;
   if (!blogid) return res.status(400).send({status:false, msg:"Please enter Blog id"})
+  if(!isValidObjectId(blogid)) return res.status(400).send({status:false, msg:"Please enter valid Blog id"})
   let model = await blogModel.findById(blogid)
   if (!model) return res.status(404).send({status:false,msg:"blog Not found"})
   let del = model.isDeleted;
@@ -146,7 +147,7 @@ const deletequery = async function (req, res) {
     if ("isPublished" in requestQuery) {
       filterQuery["isPublished"] = isPublished
     }
-    let blog = await blogModel.findOne( filterQuery ) 
+    let blog = await blogModel.find( filterQuery ) 
     if (!blog) return res.status(404).send({status:false,msg:"blog Not found"})
     console.log(blog)
     let updated = await blogModel.updateMany(filterQuery,d, {new: true })

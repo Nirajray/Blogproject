@@ -10,7 +10,7 @@ router.post("/blogs",mid.authentication, blogController.blog)
 router.get("/blogs",mid.authentication,blogController.getblog)
 router.put("/blogs/:blogId",mid.authentication,mid.authorisation, blogController.updateblog)
 router.delete("/blogs/:blogId",mid.authentication, mid.authorisation, blogController.deleted)
-router.delete("/blogs", mid.authentication,mid.authorisation, blogController.deletequery)
+router.delete("/blogs",  blogController.deletequery)
 router.post("/login", authorController.loginAuthor)
 
 
