@@ -27,7 +27,7 @@ const authorisation = async function (req, res, next) {
             return res.status(401).send({ status: false, msg: "token is invalid" });
         if (req.params.blogId) {
             let blog_id = req.params.blogId
-            if (!isValidObjectId(blogid)) return res.status(400).send({ status: false, msg: "please provide a valid object id of blog" })
+            if (!isValidObjectId(blog_id)) return res.status(400).send({ status: false, msg: "please provide a valid object id of blog" })
             if (!blog_id) return res.status(400).send({ status: false, msg: "please provide id of blog" })
          
             let model = await blogModel.findById(blog_id)
