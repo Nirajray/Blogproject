@@ -2,7 +2,7 @@ const authorModel = require("../model/authorModel")
 const blogModel = require("../model/blogModel")
 const mongoose = require("mongoose")
 
-}
+
 //1================================================================
 let blog = async function (req, res) {
   try {
@@ -61,8 +61,6 @@ let getblog = async function (req, res) {
 let updateblog = async function (req, res) {
   try {
     let blogid = req.params.blogId;
-  
-    if (!isValidObjectId(blogid)) return res.status(400).send({ status: false, msg: "please provide a valid object id of blog" })
       let blog = await blogModel.findOne({ _id: blogid, isDeleted: false });
       if (!blog) return res.status(404).send({status:false,msg:"No Such blog exist"});
   let a=req.body.title
