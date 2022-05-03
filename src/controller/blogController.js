@@ -75,7 +75,7 @@ let updateblog = async function (req, res) {
     res.status(200).send({status:true, data:updated})
   }
 else{
-let update= await blogModel.findByIdAndUpdate({_id:blogid},{title:a,category:b,body:c,isPublished:d,publishedAt:e,$push:{subcategory:f,tags:g}},{new:true})
+let update= await blogModel.findOneAndUpdate({_id:blogid},{title:a,category:b,body:c,isPublished:d,publishedAt:e,$push:{subcategory:f,tags:g}},{new:true})
 res.status(200).send({status:true, data:update})
 }
 
@@ -97,7 +97,7 @@ let deleted = async function (req, res) {
   let len = del.length
   if (len == 0) return res.status(404).send({status:false, msg:"Not found"})
   if (del == true) return res.status(400).send({status:false, msg:"Blog is already deleted"})
-  let modified = await blogModel.findByIdAndUpdate({ _id: blogid }, { isDeleted: true, deletedAt: Date.now() }, { new: true })
+  let modified = await blogModel.findOneAndUpdate({ _id: blogid }, { isDeleted: true, deletedAt: Date.now() }, { new: true })
   res.status(200).send({ status:true, data: modified })
 }
 
