@@ -1,4 +1,4 @@
-# Radon
+# Uranium
 
 Repository for backend cohort - Radon
 
